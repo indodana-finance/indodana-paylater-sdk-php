@@ -17,12 +17,12 @@ class IndodanaSecurity {
       $apiSecret
     );
 
-    return "$content:$signature";
+    return "{$content}:{$signature}";
   }
 
   public static function getContent($apiKey, $nonce)
   {
-    return "$apiKey:$nonce";
+    return "{$apiKey}:{$nonce}";
   }
 
   public static function generateSignature($content, $apiSecret)

@@ -50,6 +50,11 @@ class Indodana
     $this->baseUrl = $isProduction ? self::PRODUCTION_URL : self::SANDBOX_URL;
   }
 
+  private function urlPath($path)
+  {
+    return $this->baseUrl . $path;
+  }
+
   private function getDefaultHeader()
   {
     return IndodanaRequest::createDefaultHeader(
@@ -59,7 +64,7 @@ class Indodana
   }
 
   public function checkTransactionStatus(array $input = []) {
-    $url = $this->baseUrl . '/merchant/v1/transactions/check_status';
+    $url = $this->urlPath('/merchant/v1/transactions/check_status');
     $header = $this->getDefaultHeader();
     $queryParams = $input;
 
@@ -69,7 +74,7 @@ class Indodana
   }
 
   public function getInstallmentOptions(array $input = []) {
-    $url = $this->baseUrl . '/merchant/v1/payment_calculation';
+    $url = $this->urlPath('/merchant/v1/payment_calculation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
@@ -79,7 +84,7 @@ class Indodana
   }
 
   public function checkout(array $input = []) {
-    $url = $this->baseUrl . '/merchant/v1/checkout_url';
+    $url = $this->urlPath('/merchant/v1/checkout_url');
     $header = $this->getDefaultHeader();
     $body = $input;
 
@@ -114,3 +119,10 @@ class Indodana
     return $signatureFromIndodana === $signatureFromMerchant;
   }
 }
+
+$indodana = new Indodana([
+  'apiKey' => 'sudahlahbossque',
+  'apiSecret' => 'q123asdfae1231'
+]);
+
+print_r($indodana->validateAccessToken('SUDAHLAHHH:1582033304:779d5a619da2026c4e073b8efd71a4d3cde0037edd213605a2c15cd7f23a23d9'));
