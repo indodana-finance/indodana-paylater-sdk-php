@@ -1,0 +1,18 @@
+{
+  "name": "stvyang-i/indodana-paylater-php-sdk",
+  "description": "Indodana Paylater SDK for PHP that provides merchant integration functionalities",
+  "authors": [
+    {
+      "name": "Steven Yang",
+      "email": "syang@indodana.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Indodana\\":"src/"
+    }
+  },
+  "require": {
+    "respect/validation": "^1.1"
+  }
+}
