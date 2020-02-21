@@ -6,9 +6,15 @@ class IndodanaRequestException extends \Exception {
   private $kind;
   private $errorMessage;
 
-  public function __construct(array $error = []) {
-    $kind = $error['error']['kind'];
-    $errorMessage = $error['error']['message'];
+  public function __construct(array $response = []) {
+    $error = $response['error'];
+
+    if (empty($error)) {
+      throw new IndodanaSdkException('Received empty error from Indodana');
+    }
+
+    $kind = $error['kind'];
+    $errorMessage = $error['message'];
 
     if (
       !isset($kind) &&
