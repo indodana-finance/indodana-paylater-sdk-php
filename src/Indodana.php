@@ -2,11 +2,6 @@
 
 namespace Indodana;
 
-define ('ROOT_DIR', dirname(dirname(__FILE__)) );
-define ('VENDOR_AUTOLOAD_FILE', ROOT_DIR . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
-
-require_once VENDOR_AUTOLOAD_FILE;
-
 use Respect\Validation\Validator;
 use Indodana\IndodanaHttpClient;
 use Indodana\IndodanaRequest;

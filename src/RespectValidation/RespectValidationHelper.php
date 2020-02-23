@@ -2,8 +2,6 @@
 
 namespace Indodana\RespectValidation;
 
-require VENDOR_AUTOLOAD_FILE;
-
 use Respect\Validation\Validator;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Indodana\RespectValidation\RespectValidationResult;
