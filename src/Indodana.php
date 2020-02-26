@@ -40,6 +40,11 @@ class Indodana
     $this->setBaseUrl($config['isProduction']);
   }
 
+  public function getBaseUrl()
+  {
+    return $this->baseUrl;
+  }
+
   private function setBaseUrl($isProduction)
   {
     $this->baseUrl = $isProduction ? self::PRODUCTION_URL : self::SANDBOX_URL;
@@ -89,6 +94,14 @@ class Indodana
     $responseJson = IndodanaHttpClient::post($url, $header, $body);
 
     return $responseJson;
+  }
+
+  public function getAuthToken()
+  {
+    return IndodanaSecurity::generateAuthToken(
+      $this->apiKey,
+      $this->apiSecret
+    );
   }
 
   public function validateAccessToken($accessToken)

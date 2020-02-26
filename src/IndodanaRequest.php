@@ -7,7 +7,7 @@ use Indodana\IndodanaSecurity;
 class IndodanaRequest {
   public static function createDefaultHeader($apiKey, $apiSecret)
   {
-    $bearerToken = IndodanaSecurity::generateBearerToken(
+    $authToken = IndodanaSecurity::generateAuthToken(
       $apiKey,
       $apiSecret
     );
@@ -15,7 +15,7 @@ class IndodanaRequest {
     return [
       'Content-type: application/json',
       'Accept: application/json',
-      "Authorization: Bearer {$bearerToken}"
+      "Authorization: {$authToken}"
     ];
   }
 }

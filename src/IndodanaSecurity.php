@@ -3,7 +3,7 @@
 namespace Indodana;
 
 class IndodanaSecurity {
-  public static function generateBearerToken($apiKey, $apiSecret)
+  public static function generateAuthToken($apiKey, $apiSecret)
   {
     $nonce = time();
 
@@ -17,7 +17,7 @@ class IndodanaSecurity {
       $apiSecret
     );
 
-    return "{$content}:{$signature}";
+    return "Bearer {$content}:{$signature}";
   }
 
   public static function getContent($apiKey, $nonce)
