@@ -2,11 +2,13 @@
 
 namespace Indodana\Exceptions;
 
-class IndodanaRequestException extends \Exception {
+class IndodanaRequestException extends \Exception
+{
   private $kind;
   private $errorMessage;
 
-  public function __construct(array $response = []) {
+  public function __construct(array $response = [])
+  {
     $error = $response['error'];
 
     if (empty($error)) {
@@ -33,11 +35,13 @@ class IndodanaRequestException extends \Exception {
     parent::__construct($message);
   }
 
-  public function getKind() {
+  public function getKind()
+  {
     return $this->kind;
   }
 
-  public function getErrorMessage() {
+  public function getErrorMessage()
+  {
     return $this->errorMessage;
   }
 }

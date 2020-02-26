@@ -2,8 +2,9 @@
 
 namespace Indodana\RespectValidation;
 
-class RespectValidationResult {
-  public $success;
+class RespectValidationResult
+{
+  private $success;
   private $errorMessages;
 
   function __construct(
@@ -14,11 +15,18 @@ class RespectValidationResult {
     $this->errorMessages = $errorMessages;
   }
 
-  public function isSuccess() {
+  public function isSuccess()
+  {
     return $this->success;
   }
 
-  public function printErrorMessages() {
+  public function getErrorMesssages()
+  {
+    return $this->$errorMessages;
+  }
+
+  public function printErrorMessages()
+  {
     return join(", ", $this->errorMessages);
   }
 }

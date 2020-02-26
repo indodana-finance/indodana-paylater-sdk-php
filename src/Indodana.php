@@ -58,7 +58,8 @@ class Indodana
     );
   }
 
-  public function checkTransactionStatus(array $input = []) {
+  public function checkTransactionStatus(array $input = [])
+  {
     $url = $this->urlPath('/merchant/v1/transactions/check_status');
     $header = $this->getDefaultHeader();
     $queryParams = $input;
@@ -68,18 +69,9 @@ class Indodana
     return $responseJson;
   }
 
-  public function getInstallmentOptions(array $input = []) {
+  public function getInstallmentOptions(array $input = [])
+  {
     $url = $this->urlPath('/merchant/v1/payment_calculation');
-    $header = $this->getDefaultHeader();
-    $body = $input;
-
-    $responseJson = IndodanaHttpClient::post($url, $header, $body);
-
-    return $responseJson['payments'];
-  }
-
-  public function checkout(array $input = []) {
-    $url = $this->urlPath('/merchant/v1/checkout_url');
     $header = $this->getDefaultHeader();
     $body = $input;
 
@@ -88,6 +80,16 @@ class Indodana
     return $responseJson;
   }
 
+  public function checkout(array $input = [])
+  {
+    $url = $this->urlPath('/merchant/v1/checkout_url');
+    $header = $this->getDefaultHeader();
+    $body = $input;
+
+    $responseJson = IndodanaHttpClient::post($url, $header, $body);
+
+    return $responseJson;
+  }
 
   public function validateAccessToken($accessToken)
   {

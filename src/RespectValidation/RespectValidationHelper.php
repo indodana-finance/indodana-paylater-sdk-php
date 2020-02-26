@@ -7,7 +7,8 @@ use Respect\Validation\Exceptions\NestedValidationException;
 use Indodana\RespectValidation\RespectValidationResult;
 
 class RespectValidationHelper {
-  public static function validate($rule, $value) {
+  public static function validate($rule, $value)
+  {
     try {
       $rule->assert($value);
 
