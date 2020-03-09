@@ -9,28 +9,25 @@ class IndodanaRequestException extends \Exception
 
   public function __construct(array $response = [])
   {
-    $error = $response['error'];
-
-    if (empty($error)) {
+    if (!isset($response['error'])) {
       throw new IndodanaSdkException('Received empty error from Indodana');
     }
 
-    $kind = $error['kind'];
-    $errorMessage = $error['message'];
+    $error = $response['error'];
 
     if (
-      !isset($kind) &&
-      !isset($errorMessage)
+      !isset($error['kind']) ||
+      !isset($error['message'])
     ) {
       throw new IndodanaSdkException('Received invalid error from Indodana');
     }
 
-    $this->kind = $kind;
-    $this->errorMessage = $errorMessage;
+    $this->kind = $error['kind'];
+    $this->errorMessage = $error['message'];
 
     $message = is_string($this->errorMessage) ?
       $this->errorMessage :
-      'See .getErrorMessage() for details';
+      json_encode($this->errorMessage);
 
     parent::__construct($message);
   }

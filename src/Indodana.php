@@ -21,13 +21,13 @@ class Indodana
   public function __construct(array $config = [])
   {
     $config = array_merge([
-      'isProduction' => false
+      'livemode' => false
     ], $config);
 
     $configValidator = Validator::create()
       ->key('apiKey', Validator::stringType()->notEmpty())
       ->key('apiSecret', Validator::stringType()->notEmpty())
-      ->key('isProduction', Validator::boolType(), false);
+      ->key('livemode', Validator::boolType(), false);
 
     $validationResult = RespectValidationHelper::validate($configValidator, $config);
 
@@ -37,17 +37,14 @@ class Indodana
 
     $this->apiKey = $config['apiKey'];
     $this->apiSecret = $config['apiSecret'];
-    $this->setBaseUrl($config['isProduction']);
+    $this->setBaseUrl($config['livemode']);
   }
 
-  public function getBaseUrl()
+  private function setBaseUrl($livemode)
   {
-    return $this->baseUrl;
-  }
-
-  private function setBaseUrl($isProduction)
-  {
-    $this->baseUrl = $isProduction ? self::PRODUCTION_URL : self::SANDBOX_URL;
+    $this->baseUrl = $livemode ?
+      self::PRODUCTION_URL :
+      self::SANDBOX_URL;
   }
 
   private function urlPath($path)
@@ -96,30 +93,35 @@ class Indodana
     return $responseJson;
   }
 
+  public function getBaseUrl()
+  {
+    return $this->baseUrl;
+  }
+
   public function getAuthToken()
   {
-    return IndodanaSecurity::generateAuthToken(
+    return IndodanaSecurity::generateBearerToken(
       $this->apiKey,
       $this->apiSecret
     );
   }
 
-  public function validateAccessToken($accessToken)
+  public function validateAuthCredentials($credentials)
   {
-    $bearerTokenParts = explode(':', $accessToken);
+    $credentialParts = explode(':', $credentials);
 
-    if (count($bearerTokenParts) !== 3) {
+    if (count($credentialParts) !== 3) {
       return false;
     }
 
-    $nonce = $bearerTokenParts[1];
+    $nonce = $credentialParts[1];
 
-    $content = IndodanaSecurity::getContent(
+    $content = IndodanaSecurity::generateContent(
       $this->apiKey,
       $nonce
     );
 
-    $signatureFromIndodana = $bearerTokenParts[2];
+    $signatureFromIndodana = $credentialParts[2];
 
     $signatureFromMerchant = IndodanaSecurity::generateSignature(
       $content,
