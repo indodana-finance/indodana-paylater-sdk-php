@@ -11,8 +11,16 @@ use Indodana\RespectValidation\RespectValidationHelper;
 
 class Indodana
 {
-  const PRODUCTION_URL = 'https://api.indodana.com/chermes';
-  const SANDBOX_URL = 'https://sandbox01-api.indodana.com/chermes';
+  const PRODUCTION_ENVIRONMENT = 'PRODUCTION';
+  const SANDBOX_ENVIRONMENT = 'SANDBOX';
+
+  const PRODUCTION_BASE_URL = 'https://api.indodana.com/chermes';
+  const SANDBOX_BASE_URL = 'https://sandbox01-api.indodana.com/chermes';
+
+  const BASE_URL_BY_ENVIRONMENT = [
+    self::PRODUCTION_ENVIRONMENT  => self::PRODUCTION_BASE_URL,
+    self::SANDBOX_ENVIRONMENT     => self::SANDBOX_BASE_URL
+  ];
 
   private $apiKey;
   private $apiSecret;
@@ -21,13 +29,13 @@ class Indodana
   public function __construct(array $config = [])
   {
     $config = array_merge([
-      'livemode' => false
+      'environment' => self::SANDBOX_ENVIRONMENT
     ], $config);
 
     $configValidator = Validator::create()
       ->key('apiKey', Validator::stringType()->notEmpty())
       ->key('apiSecret', Validator::stringType()->notEmpty())
-      ->key('livemode', Validator::boolType(), false);
+      ->key('environment', Validator::in(self::getAvailableEnvironments()));
 
     $validationResult = RespectValidationHelper::validate($configValidator, $config);
 
@@ -37,14 +45,12 @@ class Indodana
 
     $this->apiKey = $config['apiKey'];
     $this->apiSecret = $config['apiSecret'];
-    $this->setBaseUrl($config['livemode']);
+    $this->setBaseUrl($config['environment']);
   }
 
-  private function setBaseUrl($livemode)
+  private function setBaseUrl($environment)
   {
-    $this->baseUrl = $livemode ?
-      self::PRODUCTION_URL :
-      self::SANDBOX_URL;
+    $this->baseUrl = self::BASE_URL_BY_ENVIRONMENT[$environment];
   }
 
   private function urlPath($path)
@@ -58,6 +64,11 @@ class Indodana
       $this->apiKey,
       $this->apiSecret
     );
+  }
+
+  public static function getAvailableEnvironments()
+  {
+    return array_keys(self::BASE_URL_BY_ENVIRONMENT);
   }
 
   public function checkTransactionStatus(array $input = [])
