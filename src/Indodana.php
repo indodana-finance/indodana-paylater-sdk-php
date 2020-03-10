@@ -5,7 +5,7 @@ namespace Indodana;
 use Respect\Validation\Validator;
 use Indodana\IndodanaHttpClient;
 use Indodana\IndodanaRequest;
-use Indodana\IndodanaSecurity;
+use Indodana\IndodanaApiSecurity;
 use Indodana\Exceptions\IndodanaSdkException;
 use Indodana\RespectValidation\RespectValidationHelper;
 
@@ -77,9 +77,9 @@ class Indodana
     $header = $this->getDefaultHeader();
     $queryParams = $input;
 
-    $responseJson = IndodanaHttpClient::get($url, $header, $queryParams);
+    $response = IndodanaHttpClient::get($url, $header, $queryParams);
 
-    return $responseJson;
+    return $response;
   }
 
   public function getInstallmentOptions(array $input = [])
@@ -88,9 +88,9 @@ class Indodana
     $header = $this->getDefaultHeader();
     $body = $input;
 
-    $responseJson = IndodanaHttpClient::post($url, $header, $body);
+    $response = IndodanaHttpClient::post($url, $header, $body);
 
-    return $responseJson;
+    return $response;
   }
 
   public function checkout(array $input = [])
@@ -99,9 +99,9 @@ class Indodana
     $header = $this->getDefaultHeader();
     $body = $input;
 
-    $responseJson = IndodanaHttpClient::post($url, $header, $body);
+    $response = IndodanaHttpClient::post($url, $header, $body);
 
-    return $responseJson;
+    return $response;
   }
 
   public function getBaseUrl()
@@ -111,7 +111,7 @@ class Indodana
 
   public function getAuthToken()
   {
-    return IndodanaSecurity::generateBearerToken(
+    return IndodanaApiSecurity::generateAuthToken(
       $this->apiKey,
       $this->apiSecret
     );
@@ -127,14 +127,14 @@ class Indodana
 
     $nonce = $credentialParts[1];
 
-    $content = IndodanaSecurity::generateContent(
+    $content = IndodanaApiSecurity::generateContent(
       $this->apiKey,
       $nonce
     );
 
     $signatureFromIndodana = $credentialParts[2];
 
-    $signatureFromMerchant = IndodanaSecurity::generateSignature(
+    $signatureFromMerchant = IndodanaApiSecurity::generateSignature(
       $content,
       $this->apiSecret
     );

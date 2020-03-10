@@ -2,12 +2,12 @@
 
 namespace Indodana;
 
-use Indodana\IndodanaSecurity;
+use Indodana\IndodanaApiSecurity;
 
 class IndodanaRequest {
   public static function createDefaultHeader($apiKey, $apiSecret)
   {
-    $bearerToken = IndodanaSecurity::generateBearerToken(
+    $authToken = IndodanaApiSecurity::generateAuthToken(
       $apiKey,
       $apiSecret
     );
@@ -15,7 +15,7 @@ class IndodanaRequest {
     return [
       'Content-type: application/json',
       'Accept: application/json',
-      "Authorization: ${bearerToken}"
+      "Authorization: ${authToken}"
     ];
   }
 }

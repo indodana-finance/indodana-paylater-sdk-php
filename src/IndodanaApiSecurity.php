@@ -2,8 +2,8 @@
 
 namespace Indodana;
 
-class IndodanaSecurity {
-  public static function generateBearerToken($apiKey, $apiSecret)
+class IndodanaAPISecurity {
+  public static function generateAuthToken($apiKey, $apiSecret)
   {
     $nonce = time();
 
