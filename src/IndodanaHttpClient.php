@@ -24,17 +24,20 @@ class IndodanaHttpClient
       throw new IndodanaSdkException($error);
     }
 
-    $httpStatus = curl_getinfo($request, CURLINFO_HTTP_CODE);
+    $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
     curl_close($request);
 
-    $responseJson = json_decode($response, true);
+    $decodedResponse = json_decode($response, true);
 
-    if ($httpStatus >= 400) {
-      throw new IndodanaRequestException($responseJson);
+    if ($responseCode >= 400) {
+      throw new IndodanaRequestException(
+        $responseCode,
+        $decodedResponse
+      );
     }
 
-    return $responseJson;
+    return $decodedResponse;
   }
 
   public static function post($url, $header = [], $data = [])
@@ -55,16 +58,19 @@ class IndodanaHttpClient
       throw new IndodanaSdkException($error);
     }
 
-    $httpStatus = curl_getinfo($request, CURLINFO_HTTP_CODE);
+    $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
     curl_close($request);
 
-    $responseJson = json_decode($response, true);
+    $decodedResponse = json_decode($response, true);
 
-    if ($httpStatus >= 400) {
-      throw new IndodanaRequestException($responseJson);
+    if ($responseCode >= 400) {
+      throw new IndodanaRequestException(
+        $responseCode,
+        $decodedResponse
+      );
     }
 
-    return $responseJson;
+    return $decodedResponse;
   }
 }

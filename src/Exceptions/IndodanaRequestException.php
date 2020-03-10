@@ -2,42 +2,53 @@
 
 namespace Indodana\Exceptions;
 
-class IndodanaRequestException extends \Exception {
+class IndodanaRequestException extends \Exception
+{
   private $kind;
   private $errorMessage;
 
-  public function __construct(array $response = []) {
+  public function __construct(
+    $statusCode,
+    array $response = []
+  ) {
+    $jsonResponse = json_encode($response);
+
+    // Sanity check in case Indodana response payload is faulty
+    if (!isset($response['error'])) {
+      throw new IndodanaSdkException(
+        "Received invalid response from Indodana. Status code: ${statusCode}. Response: ${jsonResponse}"
+      );
+    }
+
     $error = $response['error'];
 
-    if (empty($error)) {
-      throw new IndodanaSdkException('Received empty error from Indodana');
-    }
-
-    $kind = $error['kind'];
-    $errorMessage = $error['message'];
-
+    // Sanity check in case Indodana error payload is faulty
     if (
-      !isset($kind) &&
-      !isset($errorMessage)
+      !isset($error['kind']) ||
+      !isset($error['message'])
     ) {
-      throw new IndodanaSdkException('Received invalid error from Indodana');
+      throw new IndodanaSdkException(
+        "Received invalid error from Indodana. Status code ${statusCode}. Response: ${jsonResponse}"
+      );
     }
 
-    $this->kind = $kind;
-    $this->errorMessage = $errorMessage;
+    $this->kind = $error['kind'];
+    $this->errorMessage = $error['message'];
 
     $message = is_string($this->errorMessage) ?
       $this->errorMessage :
-      'See .getErrorMessage() for details';
+      json_encode($this->errorMessage);
 
     parent::__construct($message);
   }
 
-  public function getKind() {
+  public function getKind()
+  {
     return $this->kind;
   }
 
-  public function getErrorMessage() {
+  public function getErrorMessage()
+  {
     return $this->errorMessage;
   }
 }

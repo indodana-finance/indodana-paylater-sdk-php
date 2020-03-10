@@ -2,12 +2,12 @@
 
 namespace Indodana;
 
-class IndodanaSecurity {
-  public static function generateBearerToken($apiKey, $apiSecret)
+class IndodanaAPISecurity {
+  public static function generateAuthToken($apiKey, $apiSecret)
   {
     $nonce = time();
 
-    $content = self::getContent(
+    $content = self::generateContent(
       $apiKey,
       $nonce
     );
@@ -17,12 +17,12 @@ class IndodanaSecurity {
       $apiSecret
     );
 
-    return "{$content}:{$signature}";
+    return "Bearer ${content}:${signature}";
   }
 
-  public static function getContent($apiKey, $nonce)
+  public static function generateContent($apiKey, $nonce)
   {
-    return "{$apiKey}:{$nonce}";
+    return "${apiKey}:${nonce}";
   }
 
   public static function generateSignature($content, $apiSecret)

@@ -2,5 +2,6 @@
 
 namespace Indodana\Exceptions;
 
-class IndodanaSdkException extends \Exception {
+class IndodanaSdkException extends \Exception
+{
 }
