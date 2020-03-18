@@ -71,17 +71,6 @@ class Indodana
     return array_keys(self::BASE_URL_BY_ENVIRONMENT);
   }
 
-  public function checkTransactionStatus(array $input = [])
-  {
-    $url = $this->urlPath('/merchant/v1/transactions/check_status');
-    $header = $this->getDefaultHeader();
-    $queryParams = $input;
-
-    $response = IndodanaHttpClient::get($url, $header, $queryParams);
-
-    return $response;
-  }
-
   public function getInstallmentOptions(array $input = [])
   {
     $url = $this->urlPath('/merchant/v1/payment_calculation');
@@ -96,6 +85,28 @@ class Indodana
   public function checkout(array $input = [])
   {
     $url = $this->urlPath('/merchant/v1/checkout_url');
+    $header = $this->getDefaultHeader();
+    $body = $input;
+
+    $response = IndodanaHttpClient::post($url, $header, $body);
+
+    return $response;
+  }
+
+  public function checkTransactionStatus(array $input = [])
+  {
+    $url = $this->urlPath('/merchant/v1/transactions/check_status');
+    $header = $this->getDefaultHeader();
+    $queryParams = $input;
+
+    $response = IndodanaHttpClient::get($url, $header, $queryParams);
+
+    return $response;
+  }
+
+  public function refund(array $input = [])
+  {
+    $url = $this->urlPath('/merchant/v1/order_cancellation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
