@@ -14,8 +14,8 @@ class Indodana
   const PRODUCTION_ENVIRONMENT = 'PRODUCTION';
   const SANDBOX_ENVIRONMENT = 'SANDBOX';
 
-  const PRODUCTION_BASE_URL = 'https://api.indodana.com/chermes';
-  const SANDBOX_BASE_URL = 'https://sandbox01-api.indodana.com/chermes';
+  const PRODUCTION_BASE_URL = 'https://api.indodana.com/chermes/merchant';
+  const SANDBOX_BASE_URL = 'https://sandbox01-api.indodana.com/chermes/merchant';
 
   const BASE_URL_BY_ENVIRONMENT = [
     self::PRODUCTION_ENVIRONMENT  => self::PRODUCTION_BASE_URL,
@@ -71,20 +71,9 @@ class Indodana
     return array_keys(self::BASE_URL_BY_ENVIRONMENT);
   }
 
-  public function checkTransactionStatus(array $input = [])
-  {
-    $url = $this->urlPath('/merchant/v1/transactions/check_status');
-    $header = $this->getDefaultHeader();
-    $queryParams = $input;
-
-    $response = IndodanaHttpClient::get($url, $header, $queryParams);
-
-    return $response;
-  }
-
   public function getInstallmentOptions(array $input = [])
   {
-    $url = $this->urlPath('/merchant/v1/payment_calculation');
+    $url = $this->urlPath('/v1/payment_calculation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
@@ -95,7 +84,29 @@ class Indodana
 
   public function checkout(array $input = [])
   {
-    $url = $this->urlPath('/merchant/v1/checkout_url');
+    $url = $this->urlPath('/v1/checkout_url');
+    $header = $this->getDefaultHeader();
+    $body = $input;
+
+    $response = IndodanaHttpClient::post($url, $header, $body);
+
+    return $response;
+  }
+
+  public function checkTransactionStatus(array $input = [])
+  {
+    $url = $this->urlPath('/v1/transactions/check_status');
+    $header = $this->getDefaultHeader();
+    $queryParams = $input;
+
+    $response = IndodanaHttpClient::get($url, $header, $queryParams);
+
+    return $response;
+  }
+
+  public function refund(array $input = [])
+  {
+    $url = $this->urlPath('/v2/order_cancellation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
