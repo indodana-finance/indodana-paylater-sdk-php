@@ -106,7 +106,7 @@ class Indodana
 
   public function refund(array $input = [])
   {
-    $url = $this->urlPath('/v1/order_cancellation');
+    $url = $this->urlPath('/v2/order_cancellation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
