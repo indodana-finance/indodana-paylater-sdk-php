@@ -48,11 +48,17 @@ class IndodanaRequestException extends \Exception
     parent::__construct($message);
   }
 
+  /**
+   * @codeCoverageIgnore
+   */
   public function getKind()
   {
     return $this->kind;
   }
 
+  /**
+   * @codeCoverageIgnore
+   */
   public function getErrorMessage()
   {
     return $this->errorMessage;
