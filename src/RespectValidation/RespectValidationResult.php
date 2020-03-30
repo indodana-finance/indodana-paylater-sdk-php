@@ -22,11 +22,11 @@ class RespectValidationResult
 
   public function getErrorMesssages()
   {
-    return $this->$errorMessages;
+    return $this->errorMessages;
   }
 
   public function printErrorMessages()
   {
-    return join(", ", $this->errorMessages);
+    return join(", ", $this->getErrorMesssages());
   }
 }

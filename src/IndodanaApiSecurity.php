@@ -2,7 +2,7 @@
 
 namespace Indodana;
 
-class IndodanaAPISecurity {
+class IndodanaApiSecurity {
   public static function generateAuthToken($apiKey, $apiSecret)
   {
     $nonce = time();

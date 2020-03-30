@@ -1,0 +1,22 @@
+<phpunit
+  colors="true"
+  stderr="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  stopOnFailure="false" >
+    <testsuites>
+        <testsuite name="Indodana PHP SDK Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+      <log type="coverage-html" target="./tests/coverage/html/"/>
+      <log type="coverage-clover" target="./tests/coverage/clover.xml"/>
+    </logging>
+</phpunit>

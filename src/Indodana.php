@@ -128,28 +128,34 @@ class Indodana
     );
   }
 
-  public function validateAuthCredentials($credentials)
+  public function validateAuthCredentials($clientCredentials)
   {
-    $credentialParts = explode(':', $credentials);
+    $clientCredentialParts = explode(':', $clientCredentials);
 
-    if (count($credentialParts) !== 3) {
+    if (count($clientCredentialParts) !== 3) {
       return false;
     }
 
-    $nonce = $credentialParts[1];
+    $clientApiKey = $clientCredentialParts[0];
+
+    if ($clientApiKey !== $this->apiKey) {
+      return false;
+    }
+
+    $clientNonce = $clientCredentialParts[1];
 
     $content = IndodanaApiSecurity::generateContent(
       $this->apiKey,
-      $nonce
+      $clientNonce
     );
 
-    $signatureFromIndodana = $credentialParts[2];
+    $clientSignature = $clientCredentialParts[2];
 
-    $signatureFromMerchant = IndodanaApiSecurity::generateSignature(
+    $correctSignature = IndodanaApiSecurity::generateSignature(
       $content,
       $this->apiSecret
     );
 
-    return $signatureFromIndodana === $signatureFromMerchant;
+    return $clientSignature === $correctSignature;
   }
 }

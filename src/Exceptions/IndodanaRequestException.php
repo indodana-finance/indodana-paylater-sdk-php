@@ -11,6 +11,12 @@ class IndodanaRequestException extends \Exception
     $statusCode,
     array $response = []
   ) {
+    if (!is_integer($statusCode)) {
+      throw new IndodanaSdkException(
+        '"statusCode" argument is not integer.'
+      );
+    }
+
     $jsonResponse = json_encode($response);
 
     // Sanity check in case Indodana response payload is faulty
@@ -42,11 +48,17 @@ class IndodanaRequestException extends \Exception
     parent::__construct($message);
   }
 
+  /**
+   * @codeCoverageIgnore
+   */
   public function getKind()
   {
     return $this->kind;
   }
 
+  /**
+   * @codeCoverageIgnore
+   */
   public function getErrorMessage()
   {
     return $this->errorMessage;
