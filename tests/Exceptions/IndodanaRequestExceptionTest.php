@@ -10,7 +10,7 @@ final class IndodanaRequestExceptionTest extends TestCase
 {
   public function testInstantiatingWithNonIntegerStatusCodeThrows()
   {
-    $this->expectException(IndodanaSdkException::class);
+    $this->expectException(Exception::class);
 
     new IndodanaRequestException(
       'test'
