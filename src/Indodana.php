@@ -84,7 +84,7 @@ class Indodana
 
   public function checkout(array $input = [])
   {
-    $url = $this->urlPath('/v1/checkout_url');
+    $url = $this->urlPath('/v2/checkout_url');
     $header = $this->getDefaultHeader();
     $body = $input;
 
