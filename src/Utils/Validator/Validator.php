@@ -145,10 +145,14 @@ class Validator
                 return;
             }
 
+            if (filter_var(self::$input[$key], FILTER_VALIDATE_URL) === false) {
+                self::$errors += [$key => "$key must be a valid URL"];
+            }
+
             $parse = parse_url(self::$input[$key]);
 
             if (!array_key_exists('host', $parse)) {
-                self::$errors += [$key => "$key must be a valid domain"];
+                self::$errors += [$key => "$key must have a valid domain"];
             }
         };
     }
