@@ -2,9 +2,6 @@
 
 namespace Indodana\Utils\Validator;
 
-/**
- * @method static Validator in($haystack)
- */
 class Validator
 {
     private static $errors = [];
