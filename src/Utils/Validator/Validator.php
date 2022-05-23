@@ -53,14 +53,18 @@ class Validator
             }
 
             // Array - Must contain at least 1 element
-            if (is_array(self::$input[$key]) && count(self::$input[$key]) === 0) {
-                array_push(self::$errors, "$key is required, must not be empty");
+            if (is_array(self::$input[$key])) {
+                if (count(self::$input[$key]) === 0) {
+                    array_push(self::$errors, "$key is required, must not be empty");
+                }
                 return;
             }
 
             // Numeric - Must not be 0 (using equal operator '==' to check for float numbers as well)
-            if ((is_int(self::$input[$key]) || is_float(self::$input[$key])) && self::$input[$key] == 0) {
-                array_push(self::$errors, "$key is required, must not be 0");
+            if ((is_int(self::$input[$key]) || is_float(self::$input[$key]))) {
+                if (self::$input[$key] == 0) {
+                    array_push(self::$errors, "$key is required, must not be 0");
+                }
                 return;
             }
 
