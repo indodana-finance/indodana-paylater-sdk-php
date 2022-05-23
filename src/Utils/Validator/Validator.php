@@ -156,4 +156,17 @@ class Validator
             }
         };
     }
+
+    public static function arrayType()
+    {
+        return function($key) {
+            if (!array_key_exists($key, self::$input)) {
+                return;
+            }
+
+            if(!is_array(self::$input[$key])) {
+                self::$errors += [$key => "$key must be an array"];
+            }
+        };
+    }
 }
