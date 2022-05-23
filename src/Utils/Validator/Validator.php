@@ -52,9 +52,14 @@ class Validator
                 return;
             }
 
-            if (preg_match($regexp, self::$input[$key]) !== 1) {
+            if (is_array(self::$input[$key]) && count(self::$input[$key]) === 0) {
                 array_push(self::$errors, "$key is required");
+            } else {
+                if (preg_match($regexp, self::$input[$key]) !== 1) {
+                    array_push(self::$errors, "$key is required");
+                }
             }
+
         };
     }
 
@@ -127,6 +132,21 @@ class Validator
 
             if (preg_match($regexp, self::$input[$key]) !== 1) {
                 array_push(self::$errors, "$key must be one of [" . join(", ", $haystack) . "]");
+            }
+        };
+    }
+
+    public static function domain()
+    {
+        return function($key) {
+            if (!array_key_exists($key, self::$input)) {
+                return;
+            }
+
+            $parse = parse_url(self::$input[$key]);
+
+            if (array_key_exists('host', $parse)) {
+                array_push(self::$errors, "$key must be a valid domain");
             }
         };
     }
