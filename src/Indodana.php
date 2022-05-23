@@ -2,12 +2,11 @@
 
 namespace Indodana;
 
-use Respect\Validation\Validator;
 use Indodana\IndodanaHttpClient;
 use Indodana\IndodanaRequest;
 use Indodana\IndodanaApiSecurity;
 use Indodana\Exceptions\IndodanaSdkException;
-use Indodana\RespectValidation\RespectValidationHelper;
+use Indodana\Utils\Validator\Validator;
 
 class Indodana
 {
@@ -32,12 +31,10 @@ class Indodana
       'environment' => self::SANDBOX_ENVIRONMENT
     ], $config);
 
-    $configValidator = Validator::create()
-      ->key('apiKey', Validator::stringType()->notEmpty())
-      ->key('apiSecret', Validator::stringType()->notEmpty())
+    $validationResult = Validator::create($config)
+      ->key('apiKey', Validator::required())
+      ->key('apiSecret', Validator::required())
       ->key('environment', Validator::in(self::getAvailableEnvironments()));
-
-    $validationResult = RespectValidationHelper::validate($configValidator, $config);
 
     if (!$validationResult->isSuccess()) {
       throw new IndodanaSdkException($validationResult->printErrorMessages());
