@@ -48,14 +48,14 @@ class Validator
 
         return function($key) use ($regexp) {
             if (!array_key_exists($key, self::$input)) {
-                array_push(self::$errors, "$key is required");
+                self::$errors += [$key => "$key is required"];
                 return;
             }
 
             // Array - Must contain at least 1 element
             if (is_array(self::$input[$key])) {
                 if (count(self::$input[$key]) === 0) {
-                    array_push(self::$errors, "$key is required, must not be empty");
+                    self::$errors += [$key => "$key is required, must not be empty"];
                 }
                 return;
             }
@@ -63,13 +63,13 @@ class Validator
             // Numeric - Must not be 0 (using equal operator '==' to check for float numbers as well)
             if ((is_int(self::$input[$key]) || is_float(self::$input[$key]))) {
                 if (self::$input[$key] == 0) {
-                    array_push(self::$errors, "$key is required, must not be 0");
+                    self::$errors += [$key => "$key is required, must not be 0"];
                 }
                 return;
             }
 
             if (preg_match($regexp, self::$input[$key]) !== 1) {
-                array_push(self::$errors, "$key is required");
+                self::$errors += [$key => "$key is required"];
             }
         };
     }
@@ -82,7 +82,7 @@ class Validator
             }
 
             if (!filter_var(self::$input[$key], FILTER_VALIDATE_EMAIL)) {
-                array_push(self::$errors, "$key must be valid email");
+                self::$errors += [$key => "$key must be valid email"];
             }
         };
     }
@@ -97,7 +97,7 @@ class Validator
             $isNumeric = is_int(self::$input[$key]) || is_float(self::$input[$key]);
 
             if (!$isNumeric) {
-                array_push(self::$errors, "$key must be numeric");
+                self::$errors += [$key => "$key must be numeric"];
             }
         };
 
@@ -113,7 +113,7 @@ class Validator
             }
 
             if (preg_match($regexp, self::$input[$key]) !== 1) {
-                array_push(self::$errors, "$key must be valid Indonesia postal code");
+                self::$errors += [$key => "$key must be valid Indonesia postal code"];
             }
         };
 
@@ -133,7 +133,7 @@ class Validator
             }
 
             if (preg_match($regexp, self::$input[$key]) !== 1) {
-                array_push(self::$errors, "$key must be one of [" . join(", ", $haystack) . "]");
+                self::$errors += [$key => "$key must be one of [" . join(", ", $haystack) . "]"];
             }
         };
     }
@@ -148,7 +148,7 @@ class Validator
             $parse = parse_url(self::$input[$key]);
 
             if (array_key_exists('host', $parse)) {
-                array_push(self::$errors, "$key must be a valid domain");
+                self::$errors += [$key => "$key must be a valid domain"];
             }
         };
     }
