@@ -52,14 +52,21 @@ class Validator
                 return;
             }
 
+            // Array - Must contain at least 1 element
             if (is_array(self::$input[$key]) && count(self::$input[$key]) === 0) {
-                array_push(self::$errors, "$key is required");
-            } else {
-                if (preg_match($regexp, self::$input[$key]) !== 1) {
-                    array_push(self::$errors, "$key is required");
-                }
+                array_push(self::$errors, "$key is required, must not be empty");
+                return;
             }
 
+            // Numeric - Must not be 0 (using equal operator '==' to check for float numbers as well)
+            if ((is_int(self::$input[$key]) || is_float(self::$input[$key])) && self::$input[$key] == 0) {
+                array_push(self::$errors, "$key is required, must not be 0");
+                return;
+            }
+
+            if (preg_match($regexp, self::$input[$key]) !== 1) {
+                array_push(self::$errors, "$key is required");
+            }
         };
     }
 
@@ -76,26 +83,17 @@ class Validator
         };
     }
 
-    public static function numeric($isOptional = false)
+    public static function numeric()
     {
-        $regexp = '/^([1-9][0-9]*)$/';
-
-        if ($isOptional) {
-            $regexp = '/^(0|[1-9][0-9]*)$/';
-        }
-
-        return function ($key) use ($regexp, $isOptional) {
+        return function ($key) {
             if (!array_key_exists($key, self::$input)) {
                 return;
             }
 
-            if (preg_match($regexp, self::$input[$key]) !== 1) {
-                $message = "$key must be numeric";
-                if (!$isOptional) {
-                    $message .= " and greater than 0";
-                }
+            $isNumeric = is_int(self::$input[$key]) || is_float(self::$input[$key]);
 
-                array_push(self::$errors, $message);
+            if (!$isNumeric) {
+                array_push(self::$errors, "$key must be numeric");
             }
         };
 
