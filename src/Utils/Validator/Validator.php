@@ -147,7 +147,7 @@ class Validator
 
             $parse = parse_url(self::$input[$key]);
 
-            if (array_key_exists('host', $parse)) {
+            if (!array_key_exists('host', $parse)) {
                 self::$errors += [$key => "$key must be a valid domain"];
             }
         };
