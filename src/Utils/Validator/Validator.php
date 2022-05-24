@@ -55,33 +55,21 @@ class Validator
                 return;
             }
 
-            // Array - Must contain at least 1 element
-            if (is_array(self::$input[$key])) {
-                if (count(self::$input[$key]) === 0) {
-                    self::$errors = array_merge(
-                        self::$errors,
-                        [$key => "{$key} is required, must not be empty"]
-                    );
-                }
-                return;
-            }
-
-            // Numeric - Must not be 0 (using equal operator '==' to check for float numbers as well)
-            if ((is_int(self::$input[$key]) || is_float(self::$input[$key]))) {
-                if (self::$input[$key] == 0) {
-                    self::$errors = array_merge(
-                        self::$errors,
-                        [$key => "{$key} is required, must not be 0"]
-                    );
-                }
-                return;
-            }
-
-            if (preg_match($regexp, self::$input[$key]) !== 1) {
+            if (is_null(self::$input[$key])) {
                 self::$errors = array_merge(
                     self::$errors,
                     [$key => "{$key} is required"]
                 );
+                return;
+            }
+
+            if (is_string(self::$input[$key])) {
+                if (preg_match($regexp, self::$input[$key]) !== 1) {
+                    self::$errors = array_merge(
+                        self::$errors,
+                        [$key => "{$key} is required"]
+                    );
+                }
             }
         };
     }
@@ -185,7 +173,7 @@ class Validator
         };
     }
 
-    public static function arrayType()
+    public static function isArray()
     {
         return function($key) {
             if (!array_key_exists($key, self::$input)) {
