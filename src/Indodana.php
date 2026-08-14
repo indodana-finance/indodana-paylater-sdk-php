@@ -73,7 +73,7 @@ class Indodana
 
   public function getInstallmentOptions(array $input = [])
   {
-    $url = $this->urlPath('/v1/payment_calculation');
+    $url = $this->urlPath('/v2/payment_calculation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
@@ -106,7 +106,7 @@ class Indodana
 
   public function refund(array $input = [])
   {
-    $url = $this->urlPath('/v2/order_cancellation');
+    $url = $this->urlPath('/v3/order_cancellation');
     $header = $this->getDefaultHeader();
     $body = $input;
 
