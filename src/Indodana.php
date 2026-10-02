@@ -13,8 +13,8 @@ class Indodana
   const PRODUCTION_ENVIRONMENT = 'PRODUCTION';
   const SANDBOX_ENVIRONMENT = 'SANDBOX';
 
-  const PRODUCTION_BASE_URL = 'https://api.indodana.com/chermes/merchant';
-  const SANDBOX_BASE_URL = 'https://sandbox01-api.indodana.com/chermes/merchant';
+  const PRODUCTION_BASE_URL = 'https://api.indodanafinance.co.id/chermes/merchant';
+  const SANDBOX_BASE_URL = 'https://sandbox01-api.indodanafinance.co.id/chermes/merchant';
 
   const BASE_URL_BY_ENVIRONMENT = [
     self::PRODUCTION_ENVIRONMENT  => self::PRODUCTION_BASE_URL,
