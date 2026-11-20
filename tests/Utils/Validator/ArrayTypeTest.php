@@ -3,12 +3,12 @@
 namespace Indodana;
 
 use Indodana\Utils\Validator\Validator;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 final class ArrayTypeTest extends TestCase {
     public function testValidArray() {
         $input = [

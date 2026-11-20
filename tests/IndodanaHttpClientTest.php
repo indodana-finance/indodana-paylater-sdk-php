@@ -14,7 +14,7 @@ final class IndodanaHttpClientTest extends TestCase
 {
   private $url = 'test-url';
 
-  public function tearDown()
+  protected function tearDown(): void
   {
     Mockery::close();
     parent::tearDown();

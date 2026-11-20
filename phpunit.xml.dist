@@ -1,22 +1,23 @@
 <phpunit
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
   colors="true"
   stderr="true"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
   stopOnFailure="false" >
     <testsuites>
         <testsuite name="Indodana PHP SDK Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
+    <source>
+        <include>
             <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-    <logging>
-      <log type="coverage-html" target="./.coverage/html/"/>
-      <log type="coverage-clover" target="./.coverage/clover.xml"/>
-    </logging>
+        </include>
+    </source>
+    <coverage>
+      <report>
+        <html outputDirectory="./.coverage/html/"/>
+        <clover outputFile="./.coverage/clover.xml"/>
+      </report>
+    </coverage>
 </phpunit>
