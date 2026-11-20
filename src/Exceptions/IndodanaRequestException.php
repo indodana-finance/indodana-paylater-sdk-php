@@ -22,7 +22,7 @@ class IndodanaRequestException extends \Exception
     // Sanity check in case Indodana response payload is faulty
     if (!isset($response['error'])) {
       throw new IndodanaSdkException(
-        "Received invalid response from Indodana. Status code: ${statusCode}. Response: ${jsonResponse}"
+        "Received invalid response from Indodana. Status code: {$statusCode}. Response: {$jsonResponse}"
       );
     }
 
@@ -34,7 +34,7 @@ class IndodanaRequestException extends \Exception
       !isset($error['message'])
     ) {
       throw new IndodanaSdkException(
-        "Received invalid error from Indodana. Status code ${statusCode}. Response: ${jsonResponse}"
+        "Received invalid error from Indodana. Status code {$statusCode}. Response: {$jsonResponse}"
       );
     }
 

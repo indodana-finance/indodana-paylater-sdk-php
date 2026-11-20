@@ -26,8 +26,6 @@ class IndodanaHttpClient
 
     $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
-    curl_close($request);
-
     $decodedResponse = json_decode($response, true);
 
     if ($responseCode >= 400) {
@@ -59,8 +57,6 @@ class IndodanaHttpClient
     }
 
     $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
-
-    curl_close($request);
 
     $decodedResponse = json_decode($response, true);
 

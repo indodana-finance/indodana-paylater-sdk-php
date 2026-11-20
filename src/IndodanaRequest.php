@@ -15,7 +15,7 @@ class IndodanaRequest {
     return [
       'Content-type: application/json',
       'Accept: application/json',
-      "Authorization: ${authToken}"
+      "Authorization: {$authToken}"
     ];
   }
 }

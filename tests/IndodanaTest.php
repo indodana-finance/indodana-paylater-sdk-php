@@ -2,16 +2,16 @@
 
 namespace Indodana;
 
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use Indodana\Indodana;
 use Indodana\IndodanaHttpClient;
 use Indodana\Exceptions\IndodanaSdkException;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 final class IndodanaTest extends TestCase
 {
   private $config = [
@@ -23,7 +23,7 @@ final class IndodanaTest extends TestCase
   private $sampleNonce = '1585504035';
   private $sampleSignature = '68bd864cbad49e039d1d32e23377c002b200f13662f35d88ae2e5edafd76d61a';
 
-  protected function setUp()
+  protected function setUp(): void
   {
     $indodanaHttpClientMock = Mockery::mock('alias:Indodana\IndodanaHttpClient');
     $indodanaHttpClientMock->expects()
@@ -148,7 +148,7 @@ final class IndodanaTest extends TestCase
 
   private function createCredentials($apiKey, $nonce, $signature)
   {
-    return "${apiKey}:${nonce}:${signature}";
+    return "{$apiKey}:{$nonce}:{$signature}";
   }
 
   public function testValidateAuthCredentialsWithInvalidCredentialsReturnsFalse()
